@@ -2,8 +2,8 @@ export const NEUTRAL_TEAM_COLOUR = '#5B6578';
 
 // Primary franchise colours, darkened where needed for marks on chalk.
 export const TEAM_COLOURS = Object.freeze({
-  'Chennai Super Kings': '#806A00',
-  'Deccan Chargers': '#59358A',
+  'Chennai Super Kings': '#B28800',
+  'Deccan Chargers': '#005A9C',
   'Delhi Capitals': '#0066A5',
   'Gujarat Lions': '#B34816',
   'Gujarat Titans': '#15385B',

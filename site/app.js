@@ -218,9 +218,17 @@ function updateAccent() {
   document.documentElement.style.setProperty('--selected-team', state.team === 'All' ? '#B3202C' : teamColour(state.team));
 }
 
+function positionResultsSection() {
+  const dashboard = $('#dashboard');
+  const results = $('.results-section');
+  const anchor = state.team === 'All' ? $('.definitions-section') : $('.rankings-section');
+  dashboard.insertBefore(results, anchor);
+}
+
 function render({ focusSeason = false } = {}) {
   const data = state.data;
   state.team = normalizeTeamForSeason(data, state.season, state.team);
+  positionResultsSection();
   updateAccent();
   $('#data-date').textContent = fmtDate(data.data_through);
   $('#match-count').textContent = formatCount(data.match_count);

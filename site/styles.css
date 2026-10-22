@@ -378,10 +378,11 @@ main.site-shell {
 
 .team-rail {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   padding: 4px 2px 12px;
   margin: 0 -2px;
-  overflow-x: auto;
+  overflow-x: visible;
   overscroll-behavior-inline: contain;
   scrollbar-color: var(--rule) transparent;
 }
@@ -768,6 +769,13 @@ main.site-shell {
   .run-chart { min-width: 760px; }
   .death-table { min-width: 500px; }
   .results-table { min-width: 700px; }
+}
+
+@media (max-width: 899px) {
+  .team-rail {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
 }
 
 @media (max-width: 640px) {

@@ -145,6 +145,10 @@ test('contrastRatio follows WCAG relative luminance', () => {
 
 test('every dashboard team has a valid color and mapped colors contrast with chalk', () => {
   const data = JSON.parse(readFileSync(new URL('../site/data/ipl_metrics.json', import.meta.url), 'utf8'));
+  assert.equal(teamColour('Chennai Super Kings'), '#B28800');
+  assert.ok(contrastRatio(teamColour('Chennai Super Kings'), '#F5F6F4') >= 3);
+  assert.equal(teamColour('Deccan Chargers'), '#005A9C');
+  assert.ok(contrastRatio(teamColour('Deccan Chargers'), '#F5F6F4') >= 3);
   for (const team of data.teams) {
     assert.match(teamColour(team), /^#[\da-f]{6}$/i, `${team} has a valid color`);
   }
