@@ -1,5 +1,6 @@
-const LIST_KEYS = ['bowlers', 'batters', 'death_bowlers', 'records'];
 import { NEUTRAL_TEAM_COLOUR, TEAM_COLOURS, teamColour } from './teams.js';
+
+const LIST_KEYS = ['bowlers', 'batters', 'death_bowlers', 'records'];
 
 function scopeKey(value) {
   return value === null || value === undefined || value === '' ? 'All' : String(value);
