@@ -737,9 +737,24 @@ main.site-shell {
   border-top: 1px solid var(--rule);
   color: var(--muted);
   font-size: 0.9rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
 }
 
 .page-footer p { margin: 0; }
+
+.page-footer p + p { margin-top: 0.35rem; }
+
+.page-footer a {
+  color: var(--text);
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.15em;
+}
+
+.page-footer a:hover {
+  color: var(--accent-mark);
+  text-decoration-color: currentColor;
+}
 
 .animate-entry .team-line {
   stroke-dasharray: 2400;
