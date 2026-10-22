@@ -154,17 +154,17 @@ export function buildHeadline(data, season, team) {
     return `The league scored at ${formatNumber(row.run_rate)} runs an over in ${seasonKey}.`;
   }
 
-  const orderedByRate = leagueRows
+  const orderedBySeason = leagueRows
     .filter(hasRate)
     .slice()
-    .sort((first, second) => Number(first.run_rate) - Number(second.run_rate));
-  if (!orderedByRate.length) return fallback;
-  const lowest = orderedByRate[0];
-  const highest = orderedByRate[orderedByRate.length - 1];
-  if (lowest === highest) {
-    return `League scoring was ${formatNumber(lowest.run_rate)} runs an over in ${lowest.season_year}.`;
+    .sort((first, second) => Number(first.season_year) - Number(second.season_year));
+  if (!orderedBySeason.length) return fallback;
+  const earliest = orderedBySeason[0];
+  const latest = orderedBySeason[orderedBySeason.length - 1];
+  if (earliest === latest) {
+    return `League scoring was ${formatNumber(earliest.run_rate)} runs an over in ${earliest.season_year}.`;
   }
-  return `Scoring has risen from ${formatNumber(lowest.run_rate)} runs an over in ${lowest.season_year} to ${formatNumber(highest.run_rate)} in ${highest.season_year}.`;
+  return `Scoring has risen from ${formatNumber(earliest.run_rate)} runs an over in ${earliest.season_year} to ${formatNumber(latest.run_rate)} in ${latest.season_year}.`;
 }
 
 export { NEUTRAL_TEAM_COLOUR, TEAM_COLOURS, teamColour };
