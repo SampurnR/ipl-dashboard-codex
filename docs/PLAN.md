@@ -21,7 +21,7 @@ Build a reproducible, read-only pipeline from per-match Cricsheet files to clean
    - Death-over economy: the bowler economy formula for overs 16–20. Since Cricsheet labels the first over `0.x`, use ball-label prefixes 15–19.
    - Team records: derive wins, losses, and ties from match metadata; exclude no-results, count tied super-over matches as ties, and retain their eliminator team in `super_over_winner` without using it to convert the tie into a win/loss.
 
-   For all delivery metrics, wides and no-balls are not legal balls; other extras do not make a delivery illegal. Apply a 60 legal-ball minimum to bowler economy, death-over economy, and batter boundary percentage when All seasons is selected, and a 30 legal-ball minimum when one season is selected. Apply the threshold within the selected season/team scope. Exclude undefined batter percentages where batter runs are zero.
+   For all delivery metrics, wides and no-balls are not legal balls; other extras do not make a delivery illegal. Apply a 60 legal-ball minimum to bowler economy and death-over economy when All seasons is selected, and a 30 legal-ball minimum when one season is selected. For batter boundary percentage, apply the same 60/30 minimum in balls faced: every delivery except a wide counts, including no-balls. Apply thresholds within the selected season/team scope. Exclude undefined batter percentages where batter runs are zero.
 
 4. **Export for the site — `scripts/export.py`.** Bundle the metric tables into one versioned JSON file at `site/data/ipl_metrics.json`. Include seasons, canonical teams, metric definitions, metric values, and the run/ball totals needed to aggregate after filtering.
 

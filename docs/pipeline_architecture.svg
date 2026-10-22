@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 620" role="img" aria-labelledby="title description">
+  <title id="title">IPL analytics pipeline architecture</title>
+  <desc id="description">A read-only raw-data pipeline that cleans deliveries and matches, builds five metric grains, exports JSON for the site, and deploys through ChatGPT Sites. The runner orchestrates the stages and tests cover the pipeline.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#52647a"/>
+    </marker>
+    <marker id="arrowDash" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a6a20"/>
+    </marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #172536; }
+      .title { font-size: 28px; font-weight: 700; }
+      .subtitle { font-size: 15px; fill: #52647a; }
+      .box-title { font-size: 17px; font-weight: 700; }
+      .detail { font-size: 13px; fill: #435368; }
+      .flow { stroke: #52647a; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .control { stroke: #8a6a20; stroke-width: 2; fill: none; stroke-dasharray: 7 6; marker-end: url(#arrowDash); }
+      .box { stroke-width: 1.5; rx: 12; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="620" fill="#f7f9fc"/>
+  <text class="title" x="40" y="42">IPL analytics pipeline</text>
+  <text class="subtitle" x="40" y="68">Per-match Cricsheet data is cleaned, summarized, exported, then served as a static site.</text>
+
+  <!-- Main pipeline, first row: data acquisition through metric grains. -->
+  <g>
+    <rect class="box" x="30" y="110" width="180" height="112" fill="#e7effa" stroke="#6882a6"/>
+    <text class="box-title" x="120" y="145" text-anchor="middle">download_data.py</text>
+    <text class="detail" x="120" y="171" text-anchor="middle">Fetch per-match CSVs</text>
+    <text class="detail" x="120" y="192" text-anchor="middle">Skip aggregate file</text>
+
+    <rect class="box" x="250" y="110" width="190" height="112" fill="#fff3d8" stroke="#c99a36"/>
+    <text class="box-title" x="345" y="145" text-anchor="middle">data/raw/</text>
+    <text class="detail" x="345" y="171" text-anchor="middle">Per-match CSVs</text>
+    <text class="detail" x="345" y="192" text-anchor="middle">Read-only during pipeline</text>
+
+    <rect class="box" x="480" y="110" width="160" height="112" fill="#e7effa" stroke="#6882a6"/>
+    <text class="box-title" x="560" y="145" text-anchor="middle">clean.py</text>
+    <text class="detail" x="560" y="171" text-anchor="middle">Validate and normalize</text>
+    <text class="detail" x="560" y="192" text-anchor="middle">Preserve source rows</text>
+
+    <rect class="box" x="680" y="110" width="210" height="112" fill="#e7f5ed" stroke="#5f9a76"/>
+    <text class="box-title" x="785" y="145" text-anchor="middle">data/clean/</text>
+    <text class="detail" x="785" y="171" text-anchor="middle">deliveries.csv</text>
+    <text class="detail" x="785" y="192" text-anchor="middle">matches.csv</text>
+
+    <rect class="box" x="930" y="110" width="160" height="112" fill="#e7effa" stroke="#6882a6"/>
+    <text class="box-title" x="1010" y="145" text-anchor="middle">metrics.py</text>
+    <text class="detail" x="1010" y="171" text-anchor="middle">Build additive</text>
+    <text class="detail" x="1010" y="192" text-anchor="middle">metric grains</text>
+
+    <rect class="box" x="1130" y="110" width="330" height="112" fill="#e7f5ed" stroke="#5f9a76"/>
+    <text class="box-title" x="1295" y="145" text-anchor="middle">Five grain CSVs</text>
+    <text class="detail" x="1295" y="171" text-anchor="middle">team run rate · bowler economy · batter boundaries</text>
+    <text class="detail" x="1295" y="192" text-anchor="middle">death-over economy · team records</text>
+  </g>
+
+  <path class="flow" d="M 210 166 H 244"/>
+  <path class="flow" d="M 440 166 H 474"/>
+  <path class="flow" d="M 640 166 H 674"/>
+  <path class="flow" d="M 890 166 H 924"/>
+  <path class="flow" d="M 1090 166 H 1124"/>
+
+  <!-- Main pipeline, second row flows back from the grain tables to the site. -->
+  <path class="flow" d="M 1295 222 V 274"/>
+  <g>
+    <rect class="box" x="1190" y="286" width="270" height="112" fill="#e7effa" stroke="#6882a6"/>
+    <text class="box-title" x="1325" y="321" text-anchor="middle">export.py</text>
+    <text class="detail" x="1325" y="347" text-anchor="middle">Build deterministic JSON</text>
+    <text class="detail" x="1325" y="368" text-anchor="middle">Apply season/team scopes</text>
+
+    <rect class="box" x="890" y="286" width="260" height="112" fill="#e7f5ed" stroke="#5f9a76"/>
+    <text class="box-title" x="1020" y="321" text-anchor="middle">site/data/</text>
+    <text class="detail" x="1020" y="347" text-anchor="middle">ipl_metrics.json</text>
+    <text class="detail" x="1020" y="368" text-anchor="middle">Versioned schema</text>
+
+    <rect class="box" x="590" y="286" width="260" height="112" fill="#e7effa" stroke="#6882a6"/>
+    <text class="box-title" x="720" y="321" text-anchor="middle">site/ dashboard</text>
+    <text class="detail" x="720" y="347" text-anchor="middle">Static HTML, CSS, JavaScript</text>
+    <text class="detail" x="720" y="368" text-anchor="middle">Reads the relative JSON file</text>
+
+    <rect class="box" x="290" y="286" width="260" height="112" fill="#eee9fa" stroke="#8272aa"/>
+    <text class="box-title" x="420" y="321" text-anchor="middle">ChatGPT Sites</text>
+    <text class="detail" x="420" y="347" text-anchor="middle">Published static dashboard</text>
+    <text class="detail" x="420" y="368" text-anchor="middle">Production destination</text>
+  </g>
+
+  <path class="flow" d="M 1190 342 H 1156"/>
+  <path class="flow" d="M 890 342 H 856"/>
+  <path class="flow" d="M 590 342 H 556"/>
+
+  <!-- Verification and orchestration. -->
+  <rect class="box" x="30" y="474" width="400" height="98" fill="#f1edf9" stroke="#8272aa"/>
+  <text class="box-title" x="230" y="509" text-anchor="middle">tests/</text>
+  <text class="detail" x="230" y="535" text-anchor="middle">unittest coverage for clean, metrics, export, runner</text>
+  <text class="detail" x="230" y="555" text-anchor="middle">Fixtures are separate from data/raw/</text>
+
+  <rect class="box" x="570" y="474" width="440" height="98" fill="#fff3d8" stroke="#c99a36"/>
+  <text class="box-title" x="790" y="509" text-anchor="middle">run_pipeline.py</text>
+  <text class="detail" x="790" y="535" text-anchor="middle">Orchestrates clean → metrics → export</text>
+  <text class="detail" x="790" y="555" text-anchor="middle">Hashes raw files before and after</text>
+
+  <path class="control" d="M 720 474 V 450 H 460 V 230 H 560 V 228"/>
+  <path class="control" d="M 790 474 V 450 H 875 V 230 H 1010 V 228"/>
+  <path class="control" d="M 860 474 V 440 H 1325 V 404"/>
+  <path class="control" d="M 430 522 H 560"/>
+
+  <text class="subtitle" x="1040" y="520">Solid arrows: data flow</text>
+  <line x1="1040" y1="546" x2="1090" y2="546" stroke="#8a6a20" stroke-width="2" stroke-dasharray="7 6"/>
+  <text class="subtitle" x="1100" y="551">Dashed arrows: orchestration / checks</text>
+</svg>

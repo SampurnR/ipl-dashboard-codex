@@ -1,0 +1,2 @@
+match_id,season,start_date,venue,innings,ball,batting_team,bowling_team,striker,non_striker,bowler,runs_off_bat,extras,wides,noballs,byes,legbyes,penalty,non_boundary
+9999,2099/00,2099-01-01,Decoy Ground,1,0.1,Decoy XI,Other XI,Decoy Batter,Other Batter,Decoy Bowler,99,99,0,0,0,0,0,false
