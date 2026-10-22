@@ -225,7 +225,7 @@ function positionResultsSection() {
   dashboard.insertBefore(results, anchor);
 }
 
-function render({ focusSeason = false } = {}) {
+function render({ focusSeason = false, focusTeamChip = false } = {}) {
   const data = state.data;
   state.team = normalizeTeamForSeason(data, state.season, state.team);
   positionResultsSection();
@@ -254,6 +254,13 @@ function render({ focusSeason = false } = {}) {
   if (focusSeason && state.season !== 'All') {
     requestAnimationFrame(() => document.querySelector(`.season-point[data-season="${CSS.escape(state.season)}"]`)?.focus());
   }
+  if (focusTeamChip) {
+    requestAnimationFrame(() => {
+      const chip = [...$('#team-chips').querySelectorAll('button[data-team]')]
+        .find((button) => button.dataset.team === state.team);
+      chip?.focus();
+    });
+  }
 }
 
 function selectSeason(season, { focus = false } = {}) {
@@ -271,7 +278,7 @@ function installEvents() {
     const button = event.target.closest('button[data-team]');
     if (!button || button.disabled) return;
     state.team = button.dataset.team;
-    render();
+    render({ focusTeamChip: true });
   });
   $('#run-rate-content').addEventListener('click', (event) => {
     const point = event.target.closest('.season-point[data-season]');

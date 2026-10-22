@@ -4,7 +4,7 @@
     "boundary_percentage": "Runs off the bat from fours and sixes, excluding non-boundary hits, divided by batter runs and multiplied by 100.",
     "death_over_economy": "Bowler economy for overs 16 through 20.",
     "economy": "Bowler runs conceded, including wides and no-balls but excluding byes and leg byes, divided by legal balls and multiplied by 6.",
-    "qualification_rule": "A player qualifies with at least 60 legal balls across all seasons or 30 legal balls in a selected season; batters with zero runs are excluded.",
+    "qualification_rule": "Bowlers qualify with at least 60 legal balls bowled across all seasons or 30 legal balls bowled in a selected season. Batters qualify with at least 60 balls faced across all seasons or 30 balls faced in a selected season; balls faced count every delivery except a wide, so no-balls count. Batters with zero runs are excluded.",
     "run_rate": "Team runs divided by legal balls, multiplied by 6.",
     "team_records": "Wins, losses, and ties from match results; a super-over eliminator does not change a tie. No-result matches are counted separately."
   },

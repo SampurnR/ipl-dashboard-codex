@@ -168,6 +168,28 @@ class MetricsTests(unittest.TestCase):
         self.assertEqual(set(rank_death_bowlers(None, None, data_dir=self.data_dir)["bowler"]), {"Exact all"})
         self.assertEqual(set(rank_death_bowlers(2024, None, data_dir=self.data_dir)["bowler"]), {"Exact season"})
 
+    def test_batter_sample_threshold_counts_no_balls_but_not_wides_as_balls_faced(self):
+        rows = [self.delivery(striker="No-ball batter", runs_off_bat=1)]
+        rows.extend(self.delivery(striker="No-ball batter") for _ in range(28))
+        rows.append(self.delivery(striker="No-ball batter", extras=1, noballs=1))
+        rows.append(self.delivery(striker="Wide batter", runs_off_bat=1))
+        rows.extend(self.delivery(striker="Wide batter") for _ in range(28))
+        rows.append(self.delivery(striker="Wide batter", extras=1, wides=1))
+        matches = pd.DataFrame([{
+            "match_id": "m1", "season_year": 2020, "team1": "Bat A", "team2": "Bowl A",
+            "winner": "", "result_status": "no_result", "super_over_winner": "",
+        }])
+
+        tables = build_grain_tables(pd.DataFrame(rows), matches)
+        balls_faced = tables["batter_boundary"].set_index("batter")["balls_faced"]
+        self.assertEqual(balls_faced["No-ball batter"], 30)
+        self.assertEqual(balls_faced["Wide batter"], 29)
+        self.write_grains(tables)
+
+        qualified = rank_batters(2020, None, data_dir=self.data_dir)
+        self.assertEqual(list(qualified["batter"]), ["No-ball batter"])
+        self.assertEqual(qualified.iloc[0]["balls_faced"], 30)
+
     def test_team_filters_and_all_teams_sum_players_across_teams(self):
         bowler_rows = [
             {"season_year": 2016, "team": "Bowl One", "bowler": "Shared", "runs_conceded": 60, "legal_balls": 30},

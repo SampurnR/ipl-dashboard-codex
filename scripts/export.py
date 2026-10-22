@@ -34,8 +34,11 @@ METRIC_DEFINITIONS = {
         "No-result matches are counted separately."
     ),
     "qualification_rule": (
-        "A player qualifies with at least {all_seasons} legal balls across all seasons or "
-        "{single_season} legal balls in a selected season; batters with zero runs are excluded."
+        "Bowlers qualify with at least {all_seasons} legal balls bowled across all seasons or "
+        "{single_season} legal balls bowled in a selected season. Batters qualify with at least "
+        "{all_seasons} balls faced across all seasons or {single_season} balls faced in a selected "
+        "season; balls faced count every delivery except a wide, so no-balls count. Batters with zero "
+        "runs are excluded."
     ),
 }
 
