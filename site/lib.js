@@ -51,7 +51,10 @@ export function emptyMessage(kind, season, data) {
 export function formatNumber(value, maximumFractionDigits = 2) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '—';
-  return new Intl.NumberFormat(undefined, { maximumFractionDigits }).format(number);
+  return new Intl.NumberFormat(undefined, {
+    minimumFractionDigits: maximumFractionDigits,
+    maximumFractionDigits,
+  }).format(number);
 }
 
 export function formatCount(value) {

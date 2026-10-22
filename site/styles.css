@@ -249,6 +249,12 @@ tbody tr:last-child td {
   min-width: 520px;
 }
 
+@media (max-width: 1200px) {
+  .death-panel {
+    grid-column: 1 / -1;
+  }
+}
+
 .record-counts {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -336,6 +342,13 @@ tbody tr:last-child td {
   font-size: 13px;
 }
 
+.svg-y-tick {
+  fill: var(--muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
 .svg-gridline {
   stroke: var(--line);
   stroke-width: 1;
@@ -371,6 +384,11 @@ tbody tr:last-child td {
   font-family: inherit;
   font-size: 13px;
   font-variant-numeric: tabular-nums;
+}
+
+.svg-bar-name,
+.svg-bar-value {
+  font-size: 18px;
 }
 
 .svg-point-label.selected,

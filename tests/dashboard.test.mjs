@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 
 import {
   emptyMessage,
+  formatCount,
+  formatNumber,
+  formatPercent,
   normalizeTeamForSeason,
   resolveScope,
   teamsForSeason,
@@ -79,4 +82,12 @@ test('thresholdFor uses the all-season and selected-season thresholds', () => {
 test('emptyMessage explains the applicable sample threshold', () => {
   assert.match(emptyMessage('bowlers', 'All', fixture), /60 legal balls/);
   assert.match(emptyMessage('batters', 2016, fixture), /30 balls faced/);
+});
+
+test('number formatters keep two decimals for rates and percentages', () => {
+  assert.equal(formatNumber(6.6), '6.60');
+  assert.equal(formatPercent(80), '80.00%');
+  assert.equal(formatPercent(87.55), '87.55%');
+  assert.equal(formatCount(1105), '1,105');
+  assert.equal(formatNumber('invalid'), '—');
 });

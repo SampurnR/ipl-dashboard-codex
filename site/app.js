@@ -130,7 +130,7 @@ function renderRunRate(season, team) {
 
   const width = 960;
   const height = 330;
-  const left = 58;
+  const left = 82;
   const right = 22;
   const top = 32;
   const bottom = 58;
@@ -159,7 +159,14 @@ function renderRunRate(season, team) {
 
   for (let row = 0; row < 4; row += 1) {
     const y = top + (row * plotHeight) / 3;
+    const tickValue = high - (row * span) / 3;
     chart.append(svgElement('line', { x1: left, y1: y, x2: width - right, y2: y, class: 'svg-gridline' }));
+    chart.append(svgElement('text', {
+      x: left - 8,
+      y: y + 4,
+      'text-anchor': 'end',
+      class: 'svg-y-tick',
+    }, formatNumber(tickValue)));
   }
   chart.append(svgElement('line', { x1: left, y1: top, x2: left, y2: top + plotHeight, class: 'svg-axis' }));
   chart.append(svgElement('line', { x1: left, y1: top + plotHeight, x2: width - right, y2: top + plotHeight, class: 'svg-axis' }));
@@ -212,9 +219,9 @@ function renderBarChart(containerSelector, rows, kind) {
   const rowHeight = 36;
   const height = top + rows.length * rowHeight + 12;
   const compact = window.innerWidth <= 1100;
-  const trackX = compact ? 160 : 240;
-  const trackWidth = compact ? 185 : 430;
-  const valueX = compact ? 360 : 700;
+  const trackX = compact ? 230 : 265;
+  const trackWidth = compact ? 135 : 340;
+  const valueX = compact ? 385 : 635;
   const chart = svgElement('svg', {
     class: 'bar-chart-svg',
     viewBox: `0 0 ${width} ${height}`,
