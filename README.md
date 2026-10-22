@@ -25,6 +25,8 @@ python3 -m http.server --bind 127.0.0.1 --directory site
 
 Open `http://localhost:8000` to view the local dashboard. The download script uses Cricsheet's IPL CSV2 archive and leaves existing match files in place.
 
+Tests: CI runs both suites on every push and pull request.
+
 ## Project layout
 
 - `data/raw/` Local Cricsheet match inputs and their source license; ignored by Git.
