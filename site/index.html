@@ -3,116 +3,101 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Explore IPL team and player statistics by season.">
+    <meta name="description" content="Explore IPL scoring, teams, and player records across seasons.">
     <title>IPL Analytics</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="./fonts/barlow-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./styles.css">
     <script type="module" src="./app.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to dashboard</a>
-    <header class="page-header">
-      <div class="page-width header-inner">
-        <div>
-          <p class="eyebrow">MATCHES · PLAYERS · TEAMS</p>
-          <h1>IPL Analytics</h1>
-          <p class="intro">Explore team results, scoring rates, and player rankings across IPL seasons.</p>
+
+    <header class="masthead">
+      <div class="site-shell masthead-inner">
+        <h1>IPL Analytics</h1>
+        <div class="coverage" aria-label="Data coverage">
+          <p><span>Data through</span><strong id="data-date">Loading</strong></p>
+          <p><strong id="match-count">Loading</strong><span>matches</span></p>
         </div>
-        <p class="data-meta" id="data-meta" aria-live="polite">Loading match coverage…</p>
       </div>
     </header>
 
-    <main class="page-width" id="main-content">
-      <div id="loading-state" class="message-card" role="status">Loading IPL statistics…</div>
-      <div id="error-state" class="message-card error-card" role="alert" hidden>
+    <main class="site-shell" id="main-content">
+      <div id="loading-state" class="state-message" role="status">Loading IPL statistics…</div>
+      <div id="error-state" class="state-message error-message" role="alert" hidden>
         The dashboard data could not be loaded. Serve this folder over HTTP, then refresh the page.
       </div>
 
       <div id="dashboard" hidden>
-        <section class="filter-panel" aria-label="Dashboard filters">
-          <div class="filter-control">
-            <label for="season-filter">Season</label>
-            <select id="season-filter" name="season">
-              <option value="All">All seasons</option>
-            </select>
-          </div>
-          <div class="filter-control">
-            <label for="team-filter">Team</label>
-            <select id="team-filter" name="team">
-              <option value="All">All teams</option>
-            </select>
-          </div>
+        <section class="story" aria-labelledby="story-headline">
+          <p class="scope-line" id="active-scope" aria-live="polite"></p>
+          <h2 class="story-headline" id="story-headline">IPL scoring by season</h2>
         </section>
 
-        <p class="active-scope" id="active-scope" aria-live="polite"></p>
-
-        <section class="panel records-panel" aria-labelledby="records-title">
-          <div class="panel-heading">
+        <section class="timeline-section" aria-labelledby="run-rate-title">
+          <div class="section-heading timeline-heading">
             <div>
-              <p class="eyebrow">SEASON SUMMARY</p>
-              <h2 id="records-title">Wins, losses &amp; ties</h2>
+              <h2 id="run-rate-title">Run rate by season</h2>
+              <p class="section-note">Choose a season on the line. Use the arrow keys or swipe to move.</p>
             </div>
+            <button class="plain-button" id="clear-season" type="button" aria-pressed="true">All seasons</button>
+          </div>
+          <div id="run-rate-content" class="timeline-viewport"></div>
+        </section>
+
+        <section class="team-section" aria-labelledby="teams-title">
+          <div class="section-heading">
+            <h2 id="teams-title">Choose a team</h2>
+            <p class="selection-note" id="team-selection-note"></p>
+          </div>
+          <div id="team-chips" class="team-rail" role="group" aria-label="Team selection"></div>
+        </section>
+
+        <section class="results-section" aria-labelledby="records-title">
+          <div class="section-heading">
+            <h2 id="records-title">Team results</h2>
           </div>
           <div id="records-content"></div>
         </section>
 
-        <div class="chart-grid">
-          <section class="panel chart-panel run-rate-panel" aria-labelledby="run-rate-title">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">SCORING TREND</p>
-                <h2 id="run-rate-title">Run rate by season</h2>
-              </div>
-            </div>
-            <p class="chart-note">Runs per 6 legal balls</p>
-            <div id="run-rate-content"></div>
-          </section>
-
-          <section class="panel chart-panel" aria-labelledby="bowlers-title">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">BOWLING</p>
-                <h2 id="bowlers-title">Top 10 bowlers by economy</h2>
-              </div>
+        <section class="rankings-section" aria-label="Player rankings">
+          <div class="ranking-column" aria-labelledby="bowlers-title">
+            <div class="section-heading">
+              <h2 id="bowlers-title">Leading bowlers</h2>
+              <p class="ranking-description">Economy across legal balls</p>
             </div>
             <div id="bowlers-content"></div>
-          </section>
-
-          <section class="panel chart-panel" aria-labelledby="batters-title">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">BATTING</p>
-                <h2 id="batters-title">Top 10 batters by boundary %</h2>
-              </div>
+          </div>
+          <div class="ranking-column" aria-labelledby="batters-title">
+            <div class="section-heading">
+              <h2 id="batters-title">Boundary hitters</h2>
+              <p class="ranking-description">Boundary runs as a share of batter runs</p>
             </div>
             <div id="batters-content"></div>
-          </section>
+          </div>
+        </section>
 
-          <section class="panel chart-panel death-panel" aria-labelledby="death-title">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">OVERS 16–20</p>
-                <h2 id="death-title">Death-over economy</h2>
-              </div>
-            </div>
-            <div id="death-content"></div>
-          </section>
-        </div>
+        <section class="death-section" aria-labelledby="death-title">
+          <div class="section-heading">
+            <h2 id="death-title">Death-over economy</h2>
+            <p class="section-note">Overs 16 to 20</p>
+          </div>
+          <div id="death-content"></div>
+        </section>
 
-        <section class="panel definitions-panel" aria-labelledby="definitions-title">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">METHODOLOGY</p>
-              <h2 id="definitions-title">How these numbers are defined</h2>
-            </div>
+        <section class="definitions-section" aria-labelledby="definitions-title">
+          <div class="section-heading">
+            <h2 id="definitions-title">How these numbers are defined</h2>
           </div>
           <div id="definitions-content" class="definitions-content"></div>
         </section>
       </div>
     </main>
 
-    <footer class="page-width page-footer">
-      <p>IPL Analytics · Data from the bundled pipeline export</p>
+    <footer class="site-shell page-footer">
+      <p>IPL Analytics. Data from the bundled pipeline export.</p>
     </footer>
   </body>
 </html>
