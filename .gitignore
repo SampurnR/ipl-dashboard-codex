@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.DS_Store
+/data/raw/
+/data/clean/
+# site/data/ remains trackable for the static dashboard export.
